@@ -71,10 +71,13 @@ def distIdade(dados):
 
 
 
-
+#acabar
 def drawdistIdades(dados):
     res = distIdade(dados)
 
+
+
+# Notas: Fazer um ficheiro readMe.md a explicar ?
 
 
 
