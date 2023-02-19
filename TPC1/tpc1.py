@@ -69,18 +69,38 @@ def distIdade(dados):
         if dados[n][5] == 1 : res[int(dados[n][0]/5)] = res[int(dados[n][0]/5)] + 1        
     return res
 #melhorar e otimizar
-#ver discord curso e tp
+#ver discord curso e tp 
 
 
-print(distIdade(dados))
+
+
+#print(distIdade(dados))
 
 #acabar
 def drawdistIdades(dados):
     res = distIdade(dados)
+    #utilizar matplotlib
+
+def distNiveisColestrol(dados):
+    res = [0] * 61
+    for n in dados.keys():
+        print(int(dados[n][3]/10))
+        # print(dados[n][3]/10)
+        if dados[n][5] == 1 : res[int(dados[n][3]/10)] = res[int(dados[n][3]/10)] + 1        
+    return res
+
+# int(5.5) = 5 !
+
+print(distNiveisColestrol(dados))
+
+
+
 
 
 
 # Notas: Fazer um ficheiro readMe.md a explicar ?
+#        Melhorar codigo e comentarios
+#        Tutorial de python (aula1 + net) 
 
 
 
