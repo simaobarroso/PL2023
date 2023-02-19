@@ -4,6 +4,8 @@
 # Modelo pensado : dicionario de arrays: {id,[idade,...,temdoenca],etc}
 
 
+#
+
 f = open("myheart.csv")
 
 def trata(line,id):
@@ -17,7 +19,7 @@ def trata(line,id):
     #sexo = ('sexo',campos[1])
     tensao = int(campos[2])
     #tensao = ('tensao',int(campos[2]))
-    colestrol=int(campos[3])
+    colestrol=int(campos[3]) # Pensar em potenciais erros do colestrol (por exemplo colestrol a 0)!!!!!!!!!
     #colestrol = ('colestrol',int(campos[3]))
     batimento = int(campos[4])
     #batimento = ('batimento',int(campos[4]))
@@ -61,15 +63,16 @@ def doencaPorSexo(dados):
 # ver casos de excecao
 
 def distIdade(dados):
-    res = list(20)
-    n = 100 #maxidade
-    i=0
+    res = [0]*30 # n = 150 #maxidade
     for n in dados.keys():
-        
-
+        #print(dados[n][0]/5)
+        if dados[n][5] == 1 : res[int(dados[n][0]/5)] = res[int(dados[n][0]/5)] + 1        
     return res
+#melhorar e otimizar
+#ver discord curso e tp
 
 
+print(distIdade(dados))
 
 #acabar
 def drawdistIdades(dados):
