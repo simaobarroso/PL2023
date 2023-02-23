@@ -3,7 +3,7 @@
 
 # Modelo pensado : dicionario de arrays: {id,[idade,...,temdoenca],etc}
 
-f = open("myheart.csv")
+
 
 
 """
@@ -19,59 +19,54 @@ ignorar valores baixos colestrol
  
 """
 
-def trata(line,id):
-    campos = line.split(',')
-    if len(campos) != 6 : return null
-    idade = int(campos[0])
-    sexo = campos[1]
-    tensao = int(campos[2])
-    colestrol=int(campos[3]) # Pensar em potenciais erros do colestrol (por exemplo colestrol a 0)!!!!!!!!!
-    batimento = int(campos[4])
-    temDoenca = int(campos[5])
-    auxdict = [idade,sexo,tensao,colestrol,batimento,temDoenca]
-    return auxdict
-
-
-dados = dict()
-
-id = 0
-
-# rever este codigo (otimizar + por isto em funcoes)
-for line in f:
-    if id == 0: pass # eliminei a primeira linha, mas melhorar isto !!
-    # VER COM A CENA DA FUNCAO encontraMinMax
-    else : dados[id]=trata(line,id)
-    id=id+1
-
-
-#print(dados)
-
+# trata de cada linha do dataset, colocando-a num array 
+# se alguma linha do dataset tem valores errados, essa linha e` ignorada
+def trata(line):
+    try:
+        campos = line.split(',')
+        if len(campos) != 6 : return null
+        idade = int(campos[0])
+        sexo = campos[1]
+        tensao = int(campos[2])
+        colestrol=int(campos[3])
+        batimento = int(campos[4])
+        temDoenca = int(campos[5])
+        auxdict = [idade,sexo,tensao,colestrol,batimento,temDoenca]
+        return auxdict
+    except: # no caso de quando acontece um erro qualquer nos passos anteriores
+        print("----------------------\nDataset formato errado\n----------------------") #debug
+        return 0   
 
 
 
 #vai encontrar o min e max de determinada categoria
 def encontraMinMax(indice,dados):
-    min = dados[1][indice]
-    max = dados[1][indice] 
+    min = dados[2][indice]
+    max = dados[2][indice] 
     for ids in dados.keys():
         if dados[ids][indice] < min : min = dados[ids][indice]
         elif dados[ids][indice] > max : max = dados[ids][indice]
     if (min < 1 or max > 199) and indice == 0: print("Valor invalido de idades") # debugs
+    # nao faco mesmo para o colestrol ou outras categorias porque pode nao ter havido leitura, devido por exemplo ha falta de instrumentos
     return min,max
 
 
 # vai servir para as distribuicoes por escaloes e de colestrol
-# dicionario e` o dicionario a receber,
-#
-#
-# valor e` o 
+# dicionario e` o dicionario a receber, o qual vai ser populado
+# min e` o valor minimo daquele intervalo
+# max e` o valor maximo daquele intervalo
+# intervalo e` de quanto em quanto se quer que seja o intervalo da distribuicao
+# por exemplo para a idade o intervalo e` 5, para o colestrol e` 10
 def geradicionario(dicionario,min,max,intervalo):
     atual = min
-    if min % intervalo != 0 : atual -= (min % intervalo)
+    if min % intervalo != 0 : atual -= (min % intervalo) # o intervalo tem de comecar num multiplo de 5
     while (atual < max):
         dicionario.update({'['+str(atual) + '-' + str(atual + intervalo-1) + ']':0})
         atual += intervalo
     return dicionario
+
+
+
 
 
 # coloca a distribuicao da doenca por sexo num dicionario onde a key e` o sexo e o value e` a quantidade de pessoas daquele sexo que tem a doenca
@@ -90,24 +85,23 @@ def distSexo(dados):
 
 
 
-
+# distribuicao da doenca por escaloes etarios
 def distIdade(dados):
-    min,max = encontraMinMax(0,dados)
-    res = geradicionario(dict(),min,max,5) # o exercicio pede escaloes do 30 para cima, dai o minimo tomar valor de 30
-    # no entanto funciona para qualquer valor que se ponha de min
+    min,max = encontraMinMax(0,dados) # encontra se a idade maxima e minima
+    res = geradicionario(dict(),min,max,5) #apesar do exercicio pedir escaloes dos 30 para a frente, decidi incluir os de tras
+    # bastava mudar o min para 30 para ter exatamente como no exercicio
     for ids in dados.keys():
         if dados[ids][5] == 1: 
-            idade = dados[ids][0]
-            if idade % 5 != 0 : idade -= idade % 5
-            key = '['+str(idade) + '-' + str(idade + 4) + ']'
+            idade = dados[ids][0] 
+            if idade % 5 != 0 : idade -= idade % 5 # poderia ser feito sem o if, mas if mantem-se por questoes de facilidade de leitura
+            key = '['+str(idade) + '-' + str(idade + 4) + ']' # arranjamos a key, para saber onde adicionar
             res[key] +=1
 
     return res        
 
 
-#print(distIdade(dados))
 
-
+# Basicamente o mesmo do que a distribuicao por idades, chamando as mesmas funcoes
 def distNiveisColestrol(dados):
     min,max = encontraMinMax(3,dados)
     res = geradicionario(dict(),min,max,10)
@@ -119,21 +113,23 @@ def distNiveisColestrol(dados):
             key = '['+str(colestrol) + '-' + str(colestrol + 9) + ']'
             res[key] +=1
 
-    return res        
+    return res
 
+
+# a funcao que imprime a tabela dando um dicionario
 def printTable(distribuicao):
     for key in distribuicao:
         print("-----------------------------")
-        string = '|'
-        comp = int((13-len(key))/2)
+        string = '|' # barra do lado esquerdo
+        comp = int((13-len(key))/2) # quantos espacos podemos por de modo a key ficar centralizado
         for i in range(comp):
             string += ' '
-        string += key
+        string += key # adicionamos a key
         for i in range(comp):
             string += ' '
-        string += "|"
-        comp = 13-len(str(distribuicao[key]))
-        if comp % 2 != 0:
+        string += "|" # colocar barro do meio (separacao entre a key e o valor do dict)
+        comp = 13-len(str(distribuicao[key])) # o mesmo do de cima, mas para o valor da key
+        if comp % 2 != 0: 
             comp = int(comp/2)
             comp1 = comp+1
         else:
@@ -144,28 +140,44 @@ def printTable(distribuicao):
         string += str(distribuicao[key])
         for i in range(comp1):
             string += ' '
-        print(string+"|")
+        print(string+"|") # barra do lado direito
     print("-----------------------------")
 
 
 
 def main():
-    print("-----------------------------")
-    print("|   Distribuição Por Sexo   |")
-    print("-----------------------------")
-    printTable(distSexo(dados))
+    f = open("myheart.csv") # abre-se o csv dado
+    dados = dict() 
+    id = 1 # cada linha tem um id associado a si
+    for line in f:
+        if id == 1: pass # ignora-se a primeira linha do csv
+        elif trata(line) : dados[id] = trata(line)
+        id=id+1
 
-    print()
-    print("-----------------------------")
-    print("|  Distribuição Por Idade   |")
-    print("-----------------------------")
-    printTable(distIdade(dados))
+    print("PL : TPC1 - Analise de dados : doenca cardiaca\n")
+    print("1 - Distribuição Por Sexo")
+    print("2 - Distribuição Por Idade")
+    print("3 - Distribuição Por Colesterol\n")
 
-    print()
-    print("-----------------------------")
-    print("|Distribuição Por Colesterol|")
-    print("-----------------------------")
-    printTable(distNiveisColestrol(dados))
+    #print(dados) 
+    op = input("Insira uma opcao: ")
+    if (int(op) == 1):
+        print("-----------------------------")
+        print("|   Distribuição Por Sexo   |")
+        print("-----------------------------")
+        printTable(distSexo(dados))
+    if (int(op) == 2):
+        print()
+        print("-----------------------------")
+        print("|  Distribuição Por Idade   |")
+        print("-----------------------------")
+        printTable(distIdade(dados))
+    if (int(op) == 3):
+        print()
+        print("-----------------------------")
+        print("|Distribuição Por Colesterol|")
+        print("-----------------------------")
+        printTable(distNiveisColestrol(dados))
 
 
 
