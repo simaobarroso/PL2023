@@ -1,6 +1,7 @@
 # TPC1: Análise de dados: doença cardíaca
 
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 # trata de cada linha do dataset, colocando-a num array 
 # se alguma linha do dataset tem valores errados, essa linha é ignorada
@@ -145,22 +146,54 @@ def main():
     #print(dados) 
     op = input("Insira uma opcao: ")
     if (int(op) == 1):
+        dsexo = distSexo(dados)
         print("-----------------------------")
         print("|   Distribuição Por Sexo   |")
         print("-----------------------------")
-        printTable(distSexo(dados))
+        printTable(dsexo)
+
+        y1 = dsexo.keys()
+        y2 = dsexo.values()
+        plt.bar(y1, y2, color="red")
+        plt.xlabel("Género")
+        plt.ylabel("Número de pessoas com a doença")
+        plt.title("Distribuição da doença por Sexo")
+        plt.show()
+
     if (int(op) == 2):
+        didades = distIdade(dados)
         print()
         print("-----------------------------")
         print("|  Distribuição Por Idade   |")
         print("-----------------------------")
-        printTable(distIdade(dados))
+        printTable(didades)
+
+        y1 = didades.keys()
+        y2 = didades.values()
+        plt.bar(y1, y2, color="red")
+        plt.xlabel("Faixa Etária (anos)")
+        plt.ylabel("Número de pessoas com a doença")
+        plt.title("Distribuição da doença por Idades")
+        plt.show()
+
     if (int(op) == 3):
+        dcolestrol = distNiveisColestrol(dados)
         print()
         print("-----------------------------")
         print("|Distribuição Por Colesterol|")
         print("-----------------------------")
-        printTable(distNiveisColestrol(dados))
+        printTable(dcolestrol)
+
+        lista = list(dcolestrol.keys())
+        y1 = lista #list(map(, lista))
+        y2 = dcolestrol.values()
+        plt.xticks(y1, rotation=45, ha='right')
+        # plt.yticks(y2)
+        plt.bar(y1, y2, color="red")
+        plt.xlabel("Valores de Colesterol")
+        plt.ylabel("Número de pessoas com a doença")
+        plt.title("Distribuição da doença por Idades")
+        plt.show()
 
 
 

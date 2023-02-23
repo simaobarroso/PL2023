@@ -8,10 +8,14 @@
 
 <p>Relativamente a estrutra de dados para representar o resultado de cada distribuicao da doenca, optei novamente por um dicionario para cada tipo de distribuicao. Optei por isto ao inves de um array devido a flexibilidade de adicionar parametros (exemplo no caso do sexo) e a ser mais facil a leitura do seu significado. Outro fator nao menos importante é para me familizar melhor com este tipo de estruturas.</p>
 
-<>Claro que tenho de mencionar que nao ha nenhuma estrutura de dados que fosse o <i>santo graal</i>, mas pelas razoes acima mencionadas decidi usar dicionarios./p>
+Claro que tenho de mencionar que nao ha nenhuma estrutura de dados que fosse o <i>santo graal</i>, mas pelas razoes acima mencionadas decidi usar dicionarios.
 
 <p>Ao longo do ficheiro de codigo, cada funcao esta explicada, para facilitar a leitura e compreensao.</p>
 
 <p>A quando do inicio do programa ha uma interface grafica basica. é apresentada uma opcao para escolher cada distribuicao, e sao apresentadas as em modo tabela e as do matploblib ao mesmo tempo. Este tipo de tabelas ajuda-nos a retirar mais facilmente conclusoes dos dados. Por fim gostaria tambem de mencionar que visualizar os dados por percentagem tambem seria uma boa opcao, mas optei por em absoluto porque rapidamente sao retirados esses dados e o contrario é mais dificil.</p>
 
+<p>NOTA : Decide nao retirar pessoas com niveis de colestrol a 0, uma vez que pode ser querer ser feita a analise de por exemplo quanta gente nao fez mediu o colestrol comparativamente ao resto. Supos que 0 seja o caso default da nao medicao de colestrol.</p>
+
 <p>Para executar o programa basta : <b>python tpc1.py</b></p>
+
+<b>Requer o MatPlotLib instalado</b>
