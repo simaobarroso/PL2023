@@ -186,6 +186,7 @@ def main():
 
         y1 = list(dcolestrol.keys())
         y2 = list(dcolestrol.values())
+        plt.xticks(rotation=90) # na horizontal para em modo completo se ver melhor a tabela
         plt.bar(y1, y2, color="green")
         plt.xlabel("Valores de Colesterol")
         plt.ylabel("Número de pessoas com a doença")
