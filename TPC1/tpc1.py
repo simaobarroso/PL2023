@@ -154,7 +154,7 @@ def main():
 
         y1 = list(dsexo.keys())
         y2 = list(dsexo.values())
-        plt.bar(y1, y2, color="red")
+        plt.bar(y1, y2, color="green")
         plt.xlabel("Género")
         plt.ylabel("Número de pessoas com a doença")
         plt.title("Distribuição da doença por Sexo")
@@ -170,7 +170,7 @@ def main():
 
         y1 = list(didades.keys())
         y2 = list(didades.values())
-        plt.bar(y1, y2, color="red")
+        plt.bar(y1, y2, color="green")
         plt.xlabel("Faixa Etária (anos)")
         plt.ylabel("Número de pessoas com a doença")
         plt.title("Distribuição da doença por Idades")
@@ -187,7 +187,7 @@ def main():
         y1 = list(dcolestrol.keys())
         y2 = list(dcolestrol.values())
         plt.xticks(y1, rotation=45, ha='right')
-        plt.bar(y1, y2, color="red")
+        plt.bar(y1, y2, color="green")
         plt.xlabel("Valores de Colesterol")
         plt.ylabel("Número de pessoas com a doença")
         plt.title("Distribuição da doença por Idades")
