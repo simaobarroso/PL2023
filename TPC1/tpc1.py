@@ -1,26 +1,9 @@
-# tpc1 - Feito por Simao Barroso
-#fazer com dicionario dentro de dicionarios
-
-# Modelo pensado : dicionario de arrays: {id,[idade,...,temdoenca],etc}
+# TPC1: Análise de dados: doença cardíaca
 
 
-
-
-"""
-Explicar escolha das estruturas no readME.md
-
-fazer try except para possiveis erros de leitura e possiveis erros de verificacao
-
-melhorar codigo
-
-whats + discord
-
-ignorar valores baixos colestrol
- 
-"""
 
 # trata de cada linha do dataset, colocando-a num array 
-# se alguma linha do dataset tem valores errados, essa linha e` ignorada
+# se alguma linha do dataset tem valores errados, essa linha é ignorada
 def trata(line):
     try:
         campos = line.split(',')
@@ -52,11 +35,11 @@ def encontraMinMax(indice,dados):
 
 
 # vai servir para as distribuicoes por escaloes e de colestrol
-# dicionario e` o dicionario a receber, o qual vai ser populado
-# min e` o valor minimo daquele intervalo
-# max e` o valor maximo daquele intervalo
-# intervalo e` de quanto em quanto se quer que seja o intervalo da distribuicao
-# por exemplo para a idade o intervalo e` 5, para o colestrol e` 10
+# dicionario é o dicionario a receber, o qual vai ser populado
+# min é o valor minimo daquele intervalo
+# max é o valor maximo daquele intervalo
+# intervalo é de quanto em quanto se quer que seja o intervalo da distribuicao
+# por exemplo para a idade o intervalo é 5, para o colestrol é 10
 def geradicionario(dicionario,min,max,intervalo):
     atual = min
     if min % intervalo != 0 : atual -= (min % intervalo) # o intervalo tem de comecar num multiplo de 5
@@ -69,7 +52,7 @@ def geradicionario(dicionario,min,max,intervalo):
 
 
 
-# coloca a distribuicao da doenca por sexo num dicionario onde a key e` o sexo e o value e` a quantidade de pessoas daquele sexo que tem a doenca
+# coloca a distribuicao da doenca por sexo num dicionario onde a key é o sexo e o value é a quantidade de pessoas daquele sexo que tem a doenca
 def distSexo(dados):
     res = {'M': 0,'F' : 0} #cria-se ja com sexo masculino e feminino porque em principio devem ser os em maioria
     for ids in dados.keys():
@@ -154,7 +137,7 @@ def main():
         elif trata(line) : dados[id] = trata(line)
         id=id+1
 
-    print("PL : TPC1 - Analise de dados : doenca cardiaca\n")
+    print("PL : TPC1 - Análise de dados: doença cardíaca\n")
     print("1 - Distribuição Por Sexo")
     print("2 - Distribuição Por Idade")
     print("3 - Distribuição Por Colesterol\n")
