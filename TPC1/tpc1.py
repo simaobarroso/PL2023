@@ -1,6 +1,6 @@
 # TPC1: Análise de dados: doença cardíaca
 
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 import numpy as np
 
 # trata de cada linha do dataset, colocando-a num array 
