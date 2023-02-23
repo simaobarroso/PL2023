@@ -14,7 +14,9 @@ Claro que tenho de mencionar que nao ha nenhuma estrutura de dados que fosse o <
 
 <p>A quando do inicio do programa ha uma interface grafica basica. é apresentada uma opcao para escolher cada distribuicao, e sao apresentadas as em modo tabela e as do matploblib ao mesmo tempo. Este tipo de tabelas ajuda-nos a retirar mais facilmente conclusoes dos dados. Por fim gostaria tambem de mencionar que visualizar os dados por percentagem tambem seria uma boa opcao, mas optei por em absoluto porque rapidamente sao retirados esses dados e o contrario é mais dificil.</p>
 
-<!--<p>NOTA : Decide nao retirar pessoas com niveis de colestrol a 0, uma vez que pode ser querer ser feita a analise de por exemplo quanta gente nao fez mediu o colestrol comparativamente ao resto. Supos que 0 seja o caso default da nao medicao de colestrol.</p>-->
+<p>NOTA : Decide nao retirar pessoas com niveis de colestrol a 0, uma vez que pode ser querer ser feita a analise de por exemplo quanta gente nao fez mediu o colestrol comparativamente ao resto. Supos que 0 seja o caso default da nao medicao de colestrol.</p>
+
+<p>Um aspecto negativo da minha resolucao é o facto de percorrer a estrutura de dados duas vezes, uma para procurar o max e o min e outra para preencher o dicionario de resposta. Claro que isto podia ser feito de maneira mais eficiente, mas creio que devido ao dataset ser pequeno e a reutilizacao das funcao encontraMinMax para as varias distriuicoes acaba por ser uma troca de perda de perfomance por ganho de facilidade de leitura e de modularidade.</p>
 
 <p>Para executar o programa basta : <b>python tpc1.py</b></p>
 

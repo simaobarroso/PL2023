@@ -152,8 +152,8 @@ def main():
         print("-----------------------------")
         printTable(dsexo)
 
-        y1 = dsexo.keys()
-        y2 = dsexo.values()
+        y1 = list(dsexo.keys())
+        y2 = list(dsexo.values())
         plt.bar(y1, y2, color="red")
         plt.xlabel("Género")
         plt.ylabel("Número de pessoas com a doença")
@@ -188,7 +188,6 @@ def main():
         y1 = lista #list(map(, lista))
         y2 = dcolestrol.values()
         plt.xticks(y1, rotation=45, ha='right')
-        # plt.yticks(y2)
         plt.bar(y1, y2, color="red")
         plt.xlabel("Valores de Colesterol")
         plt.ylabel("Número de pessoas com a doença")
