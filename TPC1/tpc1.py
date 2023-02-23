@@ -189,7 +189,7 @@ def main():
         plt.bar(y1, y2, color="green")
         plt.xlabel("Valores de Colesterol")
         plt.ylabel("Número de pessoas com a doença")
-        plt.title("Distribuição da doença por Idades")
+        plt.title("Distribuição da doença por intervalos de Colesterol")
         plt.show()
 
 
