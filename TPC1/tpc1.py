@@ -168,8 +168,8 @@ def main():
         print("-----------------------------")
         printTable(didades)
 
-        y1 = didades.keys()
-        y2 = didades.values()
+        y1 = list(didades.keys())
+        y2 = list(didades.values())
         plt.bar(y1, y2, color="red")
         plt.xlabel("Faixa Etária (anos)")
         plt.ylabel("Número de pessoas com a doença")
@@ -184,9 +184,8 @@ def main():
         print("-----------------------------")
         printTable(dcolestrol)
 
-        lista = list(dcolestrol.keys())
-        y1 = lista #list(map(, lista))
-        y2 = dcolestrol.values()
+        y1 = list(dcolestrol.keys())
+        y2 = list(dcolestrol.values())
         plt.xticks(y1, rotation=45, ha='right')
         plt.bar(y1, y2, color="red")
         plt.xlabel("Valores de Colesterol")
