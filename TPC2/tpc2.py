@@ -73,6 +73,9 @@ def exec2():
     #res = trata(elem)
     #return res
 
+
+
+# FAZER EXERCICIO 1 !!!!!!
 def main():
     #print(exec1()) # le de um ficheiro de texto e soma todos os digitos
     print("Por default esta on")
