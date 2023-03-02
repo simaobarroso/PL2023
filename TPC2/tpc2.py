@@ -18,11 +18,11 @@ def checkOnOff(string): #verifica se a string tem um on off e =
         if char == 'o' or char == 'O':
             fase = 1
         if (char == 'n' or char == 'N') and fase ==1:
-            return 1
+            res = 1
         elif (char == 'f' or char == 'F') and fase == 1:
             fase = 2
         elif (char == 'f' or char == 'F') and fase == 2:
-            return 0 
+            res = 0 
     return res            
 
 # eficiencia nao, mas leitura facilitada
