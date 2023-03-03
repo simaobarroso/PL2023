@@ -22,6 +22,11 @@ def exec1(dados):
     return dict(sorted(res.items())) # nao era mais eficiente ir colocando organizado `a medida que vamos por no dicionario
 
 
+def exec2(dados):
+    # int(data) // 100 +1 # -> e` assim que se calcula o seculo
+    # \w+$ # regex ultimo nome
+    # ^\w+ # regex ultimo nome
+    # (^\w+|\w+$) # regex primeiro e ultimo nome
 
 
 
@@ -41,15 +46,15 @@ def trata(array):
 def printTable(distribuicao):
     for key in distribuicao:
         print("-----------------------------")
-        string = '|' # barra do lado esquerdo
-        comp = int((13-len(key))/2) # quantos espacos podemos por de modo a key ficar centralizado
+        string = '|'
+        comp = int((13-len(key))/2) 
         for i in range(comp):
             string += ' '
-        string += key # adicionamos a key
+        string += key 
         for i in range(comp):
             string += ' '
-        string += "|" # colocar barro do meio (separacao entre a key e o valor do dict)
-        comp = 13-len(str(distribuicao[key])) # o mesmo do de cima, mas para o valor da key
+        string += "|" 
+        comp = 13-len(str(distribuicao[key])) 
         if comp % 2 != 0: 
             comp = int(comp/2)
             comp1 = comp+1
@@ -61,7 +66,7 @@ def printTable(distribuicao):
         string += str(distribuicao[key])
         for i in range(comp1):
             string += ' '
-        print(string+"|") # barra do lado direito
+        print(string+"|") 
     print("-----------------------------")
 
 
@@ -98,4 +103,13 @@ Os valores das colunas correspondem a:
 Pasta | Data | Nome | Pai | Mãe | Observações
 
 Um dicionario para cada linha com aqueles parametros
+
++
+
+Explicar no read.me
+
++
+
+Fazer validacao dos dados !!!!
+
 """
