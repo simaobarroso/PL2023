@@ -30,7 +30,6 @@ def aux(res,nome):
 
     #print(res.keys())
 
-
     if nome not in res.keys():
         res[nome] = 1
     else:
@@ -72,7 +71,18 @@ def exec2(dados):
 
 
 def exec3(dados):
-    pass 
+    regex = r"(?<=,)[A-Z]{1}\w+\s*\w+" # aula pratica 2
+    res = dict()
+    for elem in dados:
+        linha = elem['observacoes']
+        parentesco = re.findall(regex,linha)
+        for es in parentesco:
+            if es in res.keys():
+                res[es] += 1 
+            else:
+                res[es] = 1
+   
+    return res    
     # basta usar regex para apanhar tudo depois da virgurla (do campo das observacoes)
     # regex 101 para confirmar 
     # 
@@ -162,8 +172,12 @@ def main():
     printTable(top5(e2))
     """
     #exec4(dados[:20])
+    """
+    for i in range(20):
+        print(dados[i]['observacoes'])
+    """
 
-
+    printTable(exec3(dados))
     """
     alinea = input("Alinea do exercicio : ") 
     if alinea == "ap":
