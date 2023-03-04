@@ -4,6 +4,7 @@
 import time # para debug
 import re # usar regular expressions
 # regex101 para validar
+import json # exercicio 4
 
 
 # tambem da para fazer por splits nesta pergunta
@@ -22,24 +23,18 @@ def exec1(dados):
             res[data] = 1
     return dict(sorted(res.items())) # nao era mais eficiente ir colocando organizado `a medida que vamos por no dicionario
 
-def aux(res,primeiroNome,ultimoNome):
+def aux(res,nome):
 
     #print(dict)
     #time.sleep(5)
 
     #print(res.keys())
-    if primeiroNome not in res.keys() and ultimoNome not in res.keys():
-        res[primeiroNome] = 1
-        res[ultimoNome] = 1
-    elif primeiroNome in res.keys() and ultimoNome not in res.keys() : 
-        res[primeiroNome] += 1
-        res[ultimoNome] = 1
-    elif primeiroNome not in res.keys() and ultimoNome in res.keys() : 
-        res[ultimoNome] += 1
-        res[primeiroNome] = 1
+
+
+    if nome not in res.keys():
+        res[nome] = 1
     else:
-        res[primeiroNome] += 1
-        res[ultimoNome] += 1
+        res[nome] += 1
 
     
     
@@ -57,48 +52,43 @@ def exec2(dados):
     # ^\w+ # regex primeiro nome
     # (^\w+|\w+$) # regex primeiro e ultimo nome
     # ou fazer split por espacos !!!!
-    res = dict()
+    resPN = dict()
+    resUN = dict()
     for elem in dados :
         data = elem['data']
         data = re.match(r"\d+",data).group()
-        seculo = int(data) // 100 + 1
+        seculo = (int(data) // 100) + 1
         primeiroNome = re.match(r"^\w+",elem['nome']).group()
         ultimoNome = re.search(r"\w+$",elem['nome']).group()
-        if seculo in res.keys():
-            res[seculo] = aux(res[seculo],primeiroNome,ultimoNome)
+        if seculo in resPN.keys():
+            resPN[seculo] = aux(resPN[seculo],primeiroNome)
         else:
-            res[seculo] = {primeiroNome : 1, ultimoNome : 1}
-        #print(res)
-        """
-        if seculo in res.keys() and primeiroNome in res[seculo].keys() and ultimoNome in res[seculo].keys():
-            res[seculo][primeiroNome] += 1
-            res[seculo][ultimoNome] += 1
-        elif primeiroNome in res[seculo].keys() and ultimoNome  not in res[seculo].keys():
-            res[seculo][primeiroNome] += 1
-            res[seculo] = {ultimoNome : 1}
-        elif primeiroNome not in res[seculo].keys() and ultimoNome in res[seculo].keys():
-            res[seculo] = {primeiroNome : 1}
-            res[seculo][ultimoNome] += 1
-        else : # caso de nao existir primeiro 
-            res[seculo] = {primeiroNome : 1}
-            res[seculo] = {ultimoNome : 1}
-        """
-    return dict(sorted(res.items()))
+            resPN[seculo] = {primeiroNome : 1} 
+        if seculo in resUN.keys():
+            resUN[seculo] = aux(resUN[seculo],ultimoNome)
+        else:
+            resUN[seculo] = {ultimoNome : 1}
+    return dict(sorted(resPN.items())),dict(sorted(resUN.items()))
 
-
-    """
-        if data in res.keys():
-            res[seculo] += 
-        else :
-            res[seculo] = 
-    return dict(sorted(res.items())) 
-    """
 
 def exec3(dados):
     pass 
     # basta usar regex para apanhar tudo depois da virgurla (do campo das observacoes)
     # regex 101 para confirmar 
     # 
+
+def exec4(dados):
+    with open('exe4.json', 'w') as f:
+        json.dump(dados, f)
+        """
+        for data in dados:
+            print(data)
+            json.dump(data, f)
+            f.write("\n")
+    #sera que temos de voltar a ler ?/ Porque 20 primeiros dados
+    f.close
+    """
+    # mandar cena de erros try catch return tru ou false, etc
 
 def trata(array):
     res = dict()
@@ -139,6 +129,11 @@ def printTable(distribuicao):
     print("-----------------------------")
 
 
+def top5(lista):
+    list = sorted(lista.items(), key=lambda x: x[1], reverse=True)[:5]
+    return dict(list)
+
+
 # Fazer uma lista de dicionarios ou um dicionarios de dicionarios ?
 # Por enquanto lista de dicionarios
 # ver ipynb (jupiter notebook) 
@@ -148,23 +143,27 @@ def main():
     dados = list()
     f = open('processos.txt')
     for line in f:
-        campos = line.split("::")
+        campos = line.split("::") # podemos usar regex em vez de split
         if (len(campos)) == 7:
             # falta validar se esta repetido ou nao os campos !!!
             # usar regex para validar campos (discord)
             dados += [trata(campos)]
     #print(dados[63])
     #print(exec2(dados))
-    dass = exec2(dados)
-    i = 0
+    primeirosNome,segundosNomes = exec2(dados) # confirmar se da valores certos
+    """
+    sec = input("Sobre qual seculo quer o top 5 de primeuros nomes :")
+    print(int(sec))
+    e2 = primeirosNome[int(sec)]
+    print(top5(e2))
+    e3 = segundosNomes[int(sec)]
+    print(top5(e3))
 
-    for elem in dass:
-        try:
-            i+= dass[elem]['Adao']             
-        except: 
-            pass    
-    print(i)        
-    
+    printTable(top5(e2))
+    """
+    #exec4(dados[:20])
+
+
     """
     alinea = input("Alinea do exercicio : ") 
     if alinea == "ap":
@@ -201,6 +200,11 @@ githubs
 
 +
 re.compile(r'^(?P<pasta>[0-9]+)::(?P<data>\d{4}-\d{2}-\d{2})::(?P<nome>[a-zA-Z ]+)::(?P<pai>[a-zA-Z ]+)?::(?P<mae>[a-zA-Z ,]+)?::(?P<observacoes>.+)[:]+$')
-
++
+validar datasets
++ 
+encontrar erros
++ 
+ler enunciado
 
 """
