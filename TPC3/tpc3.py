@@ -64,7 +64,7 @@ def exec3(dados):
 
 def exec4(dados):
     with open('exe4.json', 'w') as f:
-        json.dump(dados, f)
+        json.dump(dados, f,indent = ' ')
 
 
 def printTableOLD(distribuicao):
@@ -154,6 +154,8 @@ def parser():
 def main():
     dados = list()
     dados = parser()
+
+    #print(len(dados))
 
     print("TPC 3 : UC de Processamento do linguagens")
     print("1 - Frequência de processos por ano")
