@@ -71,7 +71,7 @@ def exec2(dados):
 
 
 def exec3(dados):
-    regex = r"(?<=,)[A-Z]{1}\w+\s*\w+" # aula pratica 2
+    regex = r"(?<=,)[\w\s]+(?=\. Proc\.)" # aula pratica 2
     res = dict()
     for elem in dados:
         linha = elem['observacoes']
@@ -112,7 +112,8 @@ def trata(array):
 
 # REUTILIZADA DO TPC1
 # a funcao que imprime a tabela dando um dicionario
-def printTable(distribuicao):
+
+def printTableOLD(distribuicao):
     for key in distribuicao:
         print("-----------------------------")
         string = '|'
@@ -139,9 +140,63 @@ def printTable(distribuicao):
     print("-----------------------------")
 
 
+def find_largest_key(dictionary):
+    largest_key = ""
+    for key in dictionary:
+        if len(key) > len(largest_key):
+            largest_key = key
+    return largest_key
+
+
+def printTable(dicionario,exec):
+    colunas = list()
+    #if exec == 1 : colunas = ["Ano","Nr processos"]
+    if exec == 2 : colunas = ["Nome","Frequencia"]
+    else : colunas = ["Relacao","Nr Pessoas"] 
+    lentgth = len(find_largest_key(dicionario))
+    print("+" + "-"*(15 + lentgth + 2) + "+")
+    print("| " + colunas[0] + (lentgth - len(colunas[0]) + 5)* " " + "| " + colunas[1]+ "|")
+    print("+" + "-"*(15 + lentgth + 2) + "+")
+    for key in dicionario:
+        string = "| "
+        string += str(key)
+        i = len(str(key))
+        while(i<lentgth+5):
+            string += " "
+            i+=1
+        string += "| " + str(dicionario[key])
+        i = len(str(dicionario[key])) + 5
+        while (i < 15):
+            string += " "
+            i+=1
+        print(string+"|") 
+    print("+" + "-"*(15 + lentgth + 2) + "+")
+
 def top5(lista):
     list = sorted(lista.items(), key=lambda x: x[1], reverse=True)[:5]
     return dict(list)
+
+
+# rever esta funcao
+def parser():
+    
+    with open("processos.txt") as file:
+
+        estrutura = re.compile(r'^(?P<pasta>[0-9]+)::(?P<data>\d{4}-\d{2}-\d{2})::(?P<nome>[a-zA-Z ]+)::(?P<pai>[a-zA-Z ]+)?::(?P<mae>[a-zA-Z ,]+)?::(?P<observacoes>.+)[:]+$')
+        lista = []
+        verificacao = set()
+
+        lines = file.readlines()
+        for line in lines:
+            x = estrutura.match(line)
+            if x:
+                chave = (x.group(3), x.group(4))
+
+                if chave not in verificacao:
+                    lista.append(x.groupdict())
+                    verificacao.add(chave)
+    
+    return lista
 
 
 # Fazer uma lista de dicionarios ou um dicionarios de dicionarios ?
@@ -151,6 +206,12 @@ def top5(lista):
 def main():
     #print("Processing processos.txt ...")
     dados = list()
+    dados = parser()
+    #print(dados)
+
+    #print(exec1(dados))
+
+    '''
     f = open('processos.txt')
     for line in f:
         campos = line.split("::") # podemos usar regex em vez de split
@@ -158,9 +219,10 @@ def main():
             # falta validar se esta repetido ou nao os campos !!!
             # usar regex para validar campos (discord)
             dados += [trata(campos)]
+    '''
     #print(dados[63])
     #print(exec2(dados))
-    primeirosNome,segundosNomes = exec2(dados) # confirmar se da valores certos
+    #primeirosNome,segundosNomes = exec2(dados) # confirmar se da valores certos
     """
     sec = input("Sobre qual seculo quer o top 5 de primeuros nomes :")
     print(int(sec))
@@ -171,13 +233,53 @@ def main():
 
     printTable(top5(e2))
     """
+    """
+    print("TPC 3 : UC de Processamento do linguagens")
+    in = input("Escolha o exercicio")
+    print("1 -  Frequência de processos por ano")
+    print("2 - Frequência de nomes próprios e apelidos por séculos e apresenta os 5 mais usados")
+    print("3 - Frequência dos vários tipos de relação: irmão, sobrinho, etc.")
+    print("4 - Primeiros 20 registos escritos num ficheiro em formato json")
+
+    in = int(in)
+    if in == 1:
+
+        printTableOLD(exec1(dados))
+
+    elif in == 2:
+        primeirosNome,segundosNomes = exec2(dados)
+        sec = input("Sobre qual seculo quer o top 5 de primeiros nomes e de ultimos nomes :"):
+        e2 = primeirosNome[int(sec)]
+        printTable(top5(e2),2)
+        print("\n")
+        e3 = segundosNomes[int(sec)]
+        printTable(top5(e3),2)
+        #printTable(exec2(dados))
+
+    elif in == 3:
+        printTable(exec3(dados),3)
+
+    else in == 4:
+        print(exec4(dados[:20]))
+        exec4(dados[:20])
+
+    else:
+        quit()            
+
+    """
     #exec4(dados[:20])
     """
     for i in range(20):
         print(dados[i]['observacoes'])
     """
 
-    printTable(exec3(dados))
+    primeirosNome,segundosNomes = exec2(dados)
+    e2 = primeirosNome[18]
+    printTable(top5(e2),2)
+
+
+    #printTableOLD(exec1(dados))
+    printTable(exec3(dados),3)
     """
     alinea = input("Alinea do exercicio : ") 
     if alinea == "ap":
@@ -188,6 +290,7 @@ def main():
     elif alinea == "as":
         print(exec1(dados))    
         """
+        
 
 
 if __name__=='__main__':
