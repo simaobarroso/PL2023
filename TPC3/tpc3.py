@@ -3,54 +3,31 @@
 
 import time # para debug
 import re # usar regular expressions
-# regex101 para validar
 import json # exercicio 4
 
 
-# tambem da para fazer por splits nesta pergunta
-# splits por '-'
 def exec1(dados):
     res = dict()
     regex = r"\d+"
     for elem in dados:
         data = elem['data']
-        #print(re.match(regex,data).group()) # ver ipynb aula teorica
         data = re.match(regex,data).group()
-        #print(data)
         if data in res.keys():
             res[data] += 1
         else :
             res[data] = 1
-    return dict(sorted(res.items())) # nao era mais eficiente ir colocando organizado `a medida que vamos por no dicionario
+    return dict(sorted(res.items())) 
+
 
 def aux(res,nome):
-
-    #print(dict)
-    #time.sleep(5)
-
-    #print(res.keys())
-
     if nome not in res.keys():
         res[nome] = 1
     else:
         res[nome] += 1
-
-    
-    
-    #print(res)
-    #time.sleep(3)
     return res
-    #return dict(sorted(res.items()))
-  
-
 
 
 def exec2(dados):
-    # int(data) // 100 +1 # -> e` assim que se calcula o seculo
-    # \w+$ # regex ultimo nome
-    # ^\w+ # regex primeiro nome
-    # (^\w+|\w+$) # regex primeiro e ultimo nome
-    # ou fazer split por espacos !!!!
     resPN = dict()
     resUN = dict()
     for elem in dados :
@@ -83,35 +60,12 @@ def exec3(dados):
                 res[es] = 1
    
     return res    
-    # basta usar regex para apanhar tudo depois da virgurla (do campo das observacoes)
-    # regex 101 para confirmar 
-    # 
+
 
 def exec4(dados):
     with open('exe4.json', 'w') as f:
         json.dump(dados, f)
-        """
-        for data in dados:
-            print(data)
-            json.dump(data, f)
-            f.write("\n")
-    #sera que temos de voltar a ler ?/ Porque 20 primeiros dados
-    f.close
-    """
-    # mandar cena de erros try catch return tru ou false, etc
 
-def trata(array):
-    res = dict()
-    res['pasta'] = array[0] # pasta/processo
-    res['data'] = array[1]
-    res['nome'] = array[2]
-    res['pai'] = array[3]
-    res['mae'] = array[4]
-    res['observacoes'] = array[5]    
-    return res
-
-# REUTILIZADA DO TPC1
-# a funcao que imprime a tabela dando um dicionario
 
 def printTableOLD(distribuicao):
     for key in distribuicao:
@@ -176,8 +130,6 @@ def top5(lista):
     list = sorted(lista.items(), key=lambda x: x[1], reverse=True)[:5]
     return dict(list)
 
-
-# rever esta funcao
 def parser():
     
     with open("processos.txt") as file:
@@ -190,7 +142,7 @@ def parser():
         for line in lines:
             x = estrutura.match(line)
             if x:
-                chave = (x.group(3), x.group(4))
+                chave = (x.group(3), x.group(5)) # se um elemento tiver o mesmo nome e a mesma mae ignora
 
                 if chave not in verificacao:
                     lista.append(x.groupdict())
@@ -199,129 +151,45 @@ def parser():
     return lista
 
 
-# Fazer uma lista de dicionarios ou um dicionarios de dicionarios ?
-# Por enquanto lista de dicionarios
-# ver ipynb (jupiter notebook) 
-
 def main():
-    #print("Processing processos.txt ...")
     dados = list()
     dados = parser()
-    #print(dados)
 
-    #print(exec1(dados))
-
-    '''
-    f = open('processos.txt')
-    for line in f:
-        campos = line.split("::") # podemos usar regex em vez de split
-        if (len(campos)) == 7:
-            # falta validar se esta repetido ou nao os campos !!!
-            # usar regex para validar campos (discord)
-            dados += [trata(campos)]
-    '''
-    #print(dados[63])
-    #print(exec2(dados))
-    #primeirosNome,segundosNomes = exec2(dados) # confirmar se da valores certos
-    """
-    sec = input("Sobre qual seculo quer o top 5 de primeuros nomes :")
-    print(int(sec))
-    e2 = primeirosNome[int(sec)]
-    print(top5(e2))
-    e3 = segundosNomes[int(sec)]
-    print(top5(e3))
-
-    printTable(top5(e2))
-    """
-    """
     print("TPC 3 : UC de Processamento do linguagens")
-    in = input("Escolha o exercicio")
-    print("1 -  Frequência de processos por ano")
+    print("1 - Frequência de processos por ano")
     print("2 - Frequência de nomes próprios e apelidos por séculos e apresenta os 5 mais usados")
     print("3 - Frequência dos vários tipos de relação: irmão, sobrinho, etc.")
     print("4 - Primeiros 20 registos escritos num ficheiro em formato json")
-
-    in = int(in)
-    if in == 1:
-
+    inp = input("Escolha o exercicio: ")
+    print("")
+    inp = int(inp)
+    if inp == 1:
+        print("-----------------------------")
+        print("|     Processos por ano     |")
+        print("-----------------------------")
         printTableOLD(exec1(dados))
 
-    elif in == 2:
+    elif inp == 2:
         primeirosNome,segundosNomes = exec2(dados)
-        sec = input("Sobre qual seculo quer o top 5 de primeiros nomes e de ultimos nomes :"):
+        sec = input("Sobre qual seculo quer o top 5 de primeiros nomes e de ultimos nomes: ")
         e2 = primeirosNome[int(sec)]
         printTable(top5(e2),2)
-        print("\n")
+        print("")
         e3 = segundosNomes[int(sec)]
         printTable(top5(e3),2)
         #printTable(exec2(dados))
 
-    elif in == 3:
+    elif inp == 3:
         printTable(exec3(dados),3)
 
-    else in == 4:
-        print(exec4(dados[:20]))
+    elif inp == 4:
+        #print(exec4(dados[:20]))
+        print("Ficheiro exe4.json")
         exec4(dados[:20])
 
     else:
         quit()            
 
-    """
-    #exec4(dados[:20])
-    """
-    for i in range(20):
-        print(dados[i]['observacoes'])
-    """
-
-    primeirosNome,segundosNomes = exec2(dados)
-    e2 = primeirosNome[18]
-    printTable(top5(e2),2)
-
-
-    #printTableOLD(exec1(dados))
-    printTable(exec3(dados),3)
-    """
-    alinea = input("Alinea do exercicio : ") 
-    if alinea == "ap":
-        print("-----------------------------")
-        print("|     Processos por ano     |")
-        print("-----------------------------")
-        printTable(exec1(dados))
-    elif alinea == "as":
-        print(exec1(dados))    
-        """
         
-
-
 if __name__=='__main__':
     main()
-
-
-"""
-Os valores das colunas correspondem a:
-Pasta | Data | Nome | Pai | Mãe | Observações
-
-Um dicionario para cada linha com aqueles parametros
-
-+
-
-Explicar no read.me
-
-+
-
-Fazer validacao dos dados !!!!
-
-+
-
-githubs
-
-+
-re.compile(r'^(?P<pasta>[0-9]+)::(?P<data>\d{4}-\d{2}-\d{2})::(?P<nome>[a-zA-Z ]+)::(?P<pai>[a-zA-Z ]+)?::(?P<mae>[a-zA-Z ,]+)?::(?P<observacoes>.+)[:]+$')
-+
-validar datasets
-+ 
-encontrar erros
-+ 
-ler enunciado
-
-"""
