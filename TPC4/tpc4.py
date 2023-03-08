@@ -27,13 +27,20 @@ def exec1(f,out):
     json.dump(res,fout)
 
 
+
+
+
+# por depois a detetar automaticamente para que tipo de ficheiro e` !!!
 def main():
     #ficheiro = input("Coloque o ficheiro de csv para por em JSON:")
-    ficheiro = "alunos.csv"
+    ficheiro = "alunos.csv"  #isto e` para o exec1
+    ficheiro = "alunos2.csv"
     #out = input("nome do ficheiro de destino: ")
-    #out = "alunos.json" #isto e` para o exec1
+    out = "alunos.json" #isto e` para o exec1
+    out = "alunos.json2"
     with open(ficheiro,"r") as f:
-        res = exec1(f,out)
+        #res = exec1(f,out)
+        res = exec2(f,out)
         #print(res)
 
 
