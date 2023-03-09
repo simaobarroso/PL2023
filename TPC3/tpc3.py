@@ -64,7 +64,7 @@ def exec3(dados):
 
 def exec4(dados):
     with open('exe4.json', 'w') as f:
-        json.dump(dados, f,indent = ' ')
+        json.dump(dados, f,indent = ' ') # nota: acontece uma imprecisao, imprime com : no final a observacao
 
 
 def printTableOLD(distribuicao):
@@ -134,7 +134,7 @@ def parser():
     
     with open("processos.txt") as file:
 
-        estrutura = re.compile(r'^(?P<pasta>[0-9]+)::(?P<data>\d{4}-\d{2}-\d{2})::(?P<nome>[a-zA-Z ]+)::(?P<pai>[a-zA-Z ]+)?::(?P<mae>[a-zA-Z ,]+)?::(?P<observacoes>.+)[:]+$')
+        estrutura = re.compile(r'^(?P<pasta>[0-9]+)::(?P<data>\d{4}-\d{2}-\d{2})::(?P<nome>[a-zA-Z ]+)::(?P<pai>[a-zA-Z ]+)?(?:,[a-zA-Z]+)?::(?P<mae>[a-zA-Z ]+)?(?:,[a-zA-Z]+)?::(?P<observacoes>.+)[:]+$')
         lista = []
         verificacao = set()
 
@@ -187,6 +187,7 @@ def main():
     elif inp == 4:
         #print(exec4(dados[:20]))
         print("Ficheiro exe4.json")
+        print("")
         exec4(dados[:20])
 
     else:
