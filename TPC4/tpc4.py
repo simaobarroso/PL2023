@@ -55,11 +55,34 @@ for l in lines[1:]:
                     res[ks[3]] = [int(e[i])]
         datasetJson += [res] 
     elif len(ks) == 7 and int(ks[5]) >= len(e)-3 and int(ks[4]) <= len(e)-3:
-        if ks[-1]=='sum':
-            pass
-        else if ks[-1] == 'media':
-            pass                                
+        for i in range(0,3):
+            res[ks[i]]=e[i].strip('\n')
+        match(ks[-1]):  
+            case "sum":
+                for i in range(3,len(e)):
+                    if e[i] != '\n' and e[i] != '':
+                        if (ks[3]+'_sum' in res.keys()):
+                            res[ks[3]+'_sum'] += int(e[i])
+                        else:
+                            res[ks[3]+'_sum'] = int(e[i])
+                datasetJson += [res] 
+            case "media":
+                for i in range(3,len(e)):
+                    if e[i] != '\n' and e[i] != '':
+                        if (ks[3]+'_media' in res.keys()):
+                            res[ks[3]+'_media'] += int(e[i])
+                        else:
+                            res[ks[3]+'_media'] = int(e[i])
+                res[ks[3]+'_media'] /= i-3           
+                datasetJson += [res]   
+            case "moda":
+                pass
+                break
+            case "produto":
+                pass
+                break                                           
 
+# Fazer mais casos + situcao de erro!!
 
 print(datasetJson)
 
