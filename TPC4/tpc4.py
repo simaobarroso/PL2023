@@ -15,7 +15,6 @@ r= r"^(\w+),(\w+),(\w+)?,?(\w*)?{?(\d+)?,?(\d+)?}?:?:?(\w+)?,*$"
 
 m = re.match(r, lines[0])
 
-#criar os dicionarios com as keys mas sem os values
 ks = list()
 for elem in m.groups():
     if elem:
