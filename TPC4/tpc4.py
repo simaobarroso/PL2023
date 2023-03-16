@@ -22,7 +22,7 @@ ks = list()
 for elem in m.groups():
     if elem:
         ks += [elem]
-#print(ks)
+print(ks)
 
 for l in lines[1:]:
     #print(l)
@@ -36,19 +36,29 @@ for l in lines[1:]:
     elif len(ks) == 5:
         print("olaaa")
         for i in range(0,3):
-            res[ks[i]]=e[i].strip('\n')
-            datasetJson += [res] # funciona????????
+            res[ks[i]]=e[i].strip('\n') # funciona????????
         for i in range(3,len(e)):
             if (ks[3] in res.keys()):
                 res[ks[3]] += [int(e[i])]
             else:
                 res[ks[3]] = [int(e[i])]
+        datasetJson += [res]
         #datasetJson += [res] # funciona????????        
-    elif len(ks) == 6:
-
+    elif len(ks) == 6 and int(ks[4]) <= len(e)-3 and int(ks[5]) >= len(e)-3: # alunos3.csv
         for i in range(0,3):
             res[ks[i]]=e[i].strip('\n')
-            datasetJson += [res]             
+        for i in range(3,len(e)):
+            if e[i] != '\n' and e[i] != '':
+                if (ks[3] in res.keys()):
+                    res[ks[3]] += [int(e[i])]
+                else:
+                    res[ks[3]] = [int(e[i])]
+        datasetJson += [res] 
+    elif len(ks) == 7 and int(ks[5]) >= len(e)-3 and int(ks[4]) <= len(e)-3:
+        if ks[-1]=='sum':
+            pass
+        else if ks[-1] == 'media':
+            pass                                
 
 
 print(datasetJson)
