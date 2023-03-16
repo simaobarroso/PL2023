@@ -32,7 +32,6 @@ for l in lines[1:]:
             res[ks[i]]=e[i].strip('\n') 
             datasetJson += [res]
     elif len(ks) == 5:
-        print("olaaa")
         for i in range(0,3):
             res[ks[i]]=e[i].strip('\n') 
         for i in range(3,len(e)):
@@ -72,8 +71,8 @@ for l in lines[1:]:
                             res[ks[3]+'_media'] += int(e[i])
                         else:
                             res[ks[3]+'_media'] = int(e[i])
-                print(res[ks[3]+'_media'])
-                print(total)
+                #print(res[ks[3]+'_media'])
+                #print(total)
                 res[ks[3]+'_media'] /= total    
                 datasetJson += [res]    
             case "produto":
@@ -89,7 +88,7 @@ for l in lines[1:]:
                 for i in range(3,len(e)):
                     if e[i] != '\n' and e[i] != '':
                         lista += [int(e[i])]
-                print(lista)    
+                #print(lista)    
                 res[ks[3]+'_mediana'] = statistics.median(lista)         
                 datasetJson += [res] 
             case "moda":
@@ -97,7 +96,7 @@ for l in lines[1:]:
                 for i in range(3,len(e)):
                     if e[i] != '\n' and e[i] != '':
                         lista += [int(e[i])]
-                print(lista)    
+                #print(lista)    
                 res[ks[3]+'_moda'] = statistics.mode(lista)         
                 datasetJson += [res]                                                     
 
