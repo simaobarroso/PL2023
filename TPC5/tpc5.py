@@ -14,10 +14,12 @@ import re
 
 def calcTroco(saldo): #suponho que o saldo venha em numero inteiro
     # saldo das moedas dado em centimos
-    res = ""
+    res1 = ""
+    res2 = ""
     e = int (saldo / 100) # esta incorreto (dividir troco em moedas?)
-    res += e +"e "
+    res1 += e +"e "
     resto = saldo % 100
+    res1 += resto + "c"
     while(resto != 0):
         if resto>50:
             res += "50c "
@@ -36,13 +38,18 @@ def calcTroco(saldo): #suponho que o saldo venha em numero inteiro
             resto -= 5 
         else:
             res += str(resto) +"c "
-            resto -= resto       
-    return res
+            resto -= resto    
+
+    return res1,res2
 
 
 def main():
     m
-    mode = 0 # 
+    mode = 0 
+    # 0 -> desligado
+    # 1 -> Ligado
+    # 2 -> ligado e vai receber um numero
+    # 3 -> ligado e vai receber moedas
     t = True
     saldo = 0
     while(t):
@@ -58,14 +65,19 @@ def main():
             elif e == "POUSAR":
                 mode = 0
                 troco = calcTroco(saldo)
-                print("maq > Troco = " + troco)
+                print("maq > Troco = " + troco) # mudar isto
                 t = False # suponho que depois do pousar nao possa vir um levantar
             elif e == "T":
+                mode = 2
                 pass
             elif e == "MOEDA":
-                pass
+                mode = 3
             elif e == "ABORTAR":
-                pass        
+                pass
+            elif re.match(r"\d+",e) and mode == 2:      
+                # numero de telemovel 
+                mode = 1
+
             n+=1
 
 if __name__=="__main__":
