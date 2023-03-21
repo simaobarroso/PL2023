@@ -1,8 +1,10 @@
-# tpc5 - 
+# tpc5 - cabine telefonica
 # simaobarroso
 
 import re
 
+# soma as moedas e devolve o valor em centimos
+# e` sempre mais facil para evitar erros de floating point trabalhar com ints
 def somaCoins(lmoedas):
     res = 0
     lcoins = lmoedas.split(',')
@@ -14,12 +16,12 @@ def somaCoins(lmoedas):
         else: print("Moeda " + l + " no formato errado")
     return res
 
-
+# ve se a chamada se pode fazer
 def chamada(numero):
     custo = 0
-    if re.match(r"^00\d+", numero):
+    if re.match(r"^00\d+", numero): # numero internacionais podem ter n de digitos diferentes de 9
         custo += 150
-    elif re.fullmatch(r"(0{2})?\d{9}", numero):
+    elif re.fullmatch(r"(0{2})?\d{9}", numero): # restantes dos numeros so podem ter 9 digitos
         if re.match(r"601", numero) or re.match(r"641", numero):
             print("Esse número não é permitido neste telefone. Escreva um novo número!")
         elif re.match(r"2", numero):
@@ -35,6 +37,7 @@ def chamada(numero):
 
     return custo
 
+#devolve o saldo em euros no formato certo
 def devolver(saldo):
     euros = saldo // 100
     centimos = saldo % 100
@@ -45,6 +48,7 @@ def devolver(saldo):
     else:
         return "{}e{}c".format(euros, centimos)
 
+# para devolver o formato com extra
 def devolver2(saldo):
     qt = {'2e': 0,'1e':0,'50c':0,'20c':0,'10c':0,'5c':0,'2c':0,'1c':0}
     euros = saldo // 100
@@ -65,8 +69,6 @@ def devolver2(saldo):
     for el in qt:
         if(qt[el]>0): res+= str(qt[el]) + "x"+ el +" "
     return res    
-
-
 
 
 def main():
@@ -108,9 +110,3 @@ def main():
 
 if __name__=="__main__":
     main()    
-
-
-"""
-Notas:
-Melhorar correcao de erros
-"""
