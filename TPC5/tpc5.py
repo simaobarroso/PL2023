@@ -45,6 +45,29 @@ def devolver(saldo):
     else:
         return "{}e{}c".format(euros, centimos)
 
+def devolver2(saldo):
+    qt = {'2e': 0,'1e':0,'50c':0,'20c':0,'10c':0,'5c':0,'2c':0,'1c':0}
+    euros = saldo // 100
+    centimos = saldo % 100
+    res = ""
+    while (euros > 0):
+        if euros >= 2: 
+            qt['2e'] +=1
+            euros -= 2
+        else:
+            qt['1e'] +=1
+            euros -= 1
+    ct = [50,20,10,5,2,1]
+    for c in ct:
+        while(centimos>=c):
+            qt[str(c)+'c'] += 1
+            centimos -= c
+    for el in qt:
+        if(qt[el]>0): res+= str(qt[el]) + "x"+ el +" "
+    return res    
+
+
+
 
 def main():
     mode = 0 
@@ -72,9 +95,11 @@ def main():
             print("maq: \"saldo="+ devolver(saldo)+"\"") 
         elif re.fullmatch(r"\s*ABORTAR\s*", i) and mode == 1:
             print("maq: \"troco="+devolver(saldo)+"; Obrigado!\"")
+            print("maq: \"troco="+devolver2(saldo)+"; Volte sempre!\"")
             break
         elif re.fullmatch(r"\s*POUSAR\s*", i) and mode == 1:
             print("maq: \"troco="+devolver(saldo)+"; Obrigado!\"")
+            print("maq: \"troco="+devolver2(saldo)+"; Volte sempre!\"")
             break
         else:
             print("maq: Operação Inválida")
