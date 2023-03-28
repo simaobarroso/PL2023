@@ -11,13 +11,13 @@ tokens = (
     'ELSE',
     'FUNCTION',
     #'PROGRAM',
-    'ID',
     'NUMBER',
     'COMMENTARYOPEN',
     'COMMENTARYCLOSE',
     'TEXT',
     'RANGE',
-    'WHILE'
+    'WHILE',
+    'ID'
 )
 
 # erals are characters or strings that represent themselves as tokens
@@ -54,6 +54,10 @@ def t_IN(t):
     r'in'
     return t
 
+def t_WHILE(t):
+    r'while'
+    return t
+
 def t_ID(t):
     r'[_a-zA-Z]\w*'
     return t
@@ -62,27 +66,26 @@ def t_RANGE(t):
     r'\.\.' # [1..9]
     return t
 
-def t_WHILE(t):
-    r'while'
-    return t
 
 def t_FUNCTION(t):
     r'function'
     return t
 
-def t_COMM_COMMENTARYOPEN(t):
+def t_COMMENTARYOPEN(t):
     r'/\*'
     t.lexer.begin('COMM')
+    return t # ??
 
 def t_COMM_COMMENTARYCLOSE(t):
     r'\*/'
     t.lexer.begin('INITIAL')
+    return t
 
 def t_COMMENTARY(t):
     r'//.*'
     pass
 
-def r_COMM_TEXT(t):
+def t_COMM_TEXT(t):
     r'.|\n'
     pass
 
@@ -90,8 +93,8 @@ def r_COMM_TEXT(t):
 t_ANY_ignore = ' \t\n'
 
 
-def t_error(t):
-    print("Caracter invalido '%s'" % t.value[0])
+def t_ANY_error(t):
+    print("Caracter invalido: ", t.value[0])
     t.lexer.skip(1)
 
 
