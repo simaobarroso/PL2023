@@ -1,41 +1,91 @@
 import ply.lex as lex
+from time import sleep
 
 # Define the tokens that our lexer will recognize
 tokens = (
     'TYPE',
-    'COMMENT',
+    'COMMENTARY',
     'FOR_LOOP',
     'IN',
     'IF',
     'ELSE',
     'FUNCTION',
-    'PROGRAM',
+    #'PROGRAM',
     'ID',
     'NUMBER',
     'COMMENT_OPEN',
     'COMMENT_CLOSE',
     'TEXT',
-    'RANGE'
+    'RANGE',
+    'WHILE'
 )
 
 # erals are characters or strings that represent themselves as tokens
 literals = (',',',','=','(',')','{','}','<','>','[',']',r'+',r'-','/',r'*')
 
-t_PLUS = r'\+'
-t_MINUS = r'-'
-t_TIMES = r'\*'
-t_DIVIDE = r'/'
-t_EQUAL = r'='
-#t_STOP = r'STOP'
-t_ASSIGN = r'[a-zA-Z]+' # POR O STOP AQUI??
-t_N = r'\n'
+states = (
+    ('COMMENT','exclusive') # para no caso dos comentarios
+)
 
-operacoes="+-/*="
 
+# there is another way of doing this
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
+
+def t_TYPE(t):
+    r'int|float|char|string|boolean'
+    return t
+
+def t_FOR_LOOP(t):
+    r'for'
+    return t
+
+def t_IF(t):
+    r'if'
+    return t
+
+def t_ELSE(t):
+    r'else'
+    return t
+
+def t_IN(t):
+    r'in'
+    return t
+
+def t_ID(t):
+    r'[_a-zA-Z]\w*'
+    return t
+
+def t_RANGE(t):
+    r'\.\.' # [1..9]
+    return t
+
+def t_WHILE(t):
+    r'while'
+    return t
+
+def t_FUNCTION(t):
+    r'function'
+    return t
+
+def t_COMMENT_OPEN(t):
+    r'/\*'
+    t.lexer.begin('COMMENT')
+
+def t_COMMENT_CLOSE(t):
+    r'\*/'
+    t.lexer.begin('INITIAL')
+
+def t_COMMENTARY(t):
+    r'//.*'
+    pass
+
+def r_COMMENT_TEXT:
+    r'.|\n'
+    pass
+
 
 t_ANY_ignore = ' \t\n'
 
@@ -49,16 +99,67 @@ lexer = lex.lex()
 
 
 
+data1 = """
+/* factorial.p
+-- 2023-03-20 
+-- by jcr
+*/
 
+int i;
 
+// Função que calcula o factorial dum número n
+function fact(n){
+  int res = 1;
+  while res > 1 {
+    res = res * n;
+    res = res - 1;
+  }
+}
 
-while(True):
-    i = input(">")
-    lexer.input(i)
+// Programa principal
+program myFact{
+  for i in [1..10]{
+    print(i, fact(i));
+  }
+}
+"""
+
+data2 = """
+/* max.p: calcula o maior inteiro duma lista desordenada
+-- 2023-03-20 
+-- by jcr
+*/
+
+int i = 10, a[10] = {1,2,3,4,5,6,7,8,9,10};
+
+// Programa principal
+program myMax{
+  int max = a[0];
+  for i in [1..9]{
+    if max < a[i] {
+      max = a[i];
+    }
+  }
+  print(max);
+}
+"""
+
+data3="""
+/* 
+Isto aqui e` so para testar comentarios
+*/
+
+// sera que funciono ou nao
+"""
+
+data = [data1,data2,data3]
+
+for d in data:
+    lexer.input(d)
     for tok in lexer:
-        if(tok.value == 'STOP') : quit()
-        if(tok.type == 'ASSIGN') : print("variavel " + tok.value)
-        if(str(tok.value) in operacoes) : print('operador encontrado')
-        if(tok.type == 'N'):print()
+        #if(tok.value == 'STOP') : quit()
         print(tok)
+    print("\n--------------------------------------------------\n")
+    sleep(5)
+
 
