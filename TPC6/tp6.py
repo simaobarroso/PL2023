@@ -13,18 +13,18 @@ tokens = (
     #'PROGRAM',
     'ID',
     'NUMBER',
-    'COMMENT_OPEN',
-    'COMMENT_CLOSE',
+    'COMMENTARYOPEN',
+    'COMMENTARYCLOSE',
     'TEXT',
     'RANGE',
     'WHILE'
 )
 
 # erals are characters or strings that represent themselves as tokens
-literals = (',',',','=','(',')','{','}','<','>','[',']',r'+',r'-','/',r'*')
+literals = (',',';','=','(',')','{','}','<','>','[',']',r'+',r'-','/',r'*')
 
 states = (
-    ('COMMENT','exclusive') # para no caso dos comentarios
+    ('COMM','exclusive'), # para no caso dos comentarios
 )
 
 
@@ -70,11 +70,11 @@ def t_FUNCTION(t):
     r'function'
     return t
 
-def t_COMMENT_OPEN(t):
+def t_COMM_COMMENTARYOPEN(t):
     r'/\*'
-    t.lexer.begin('COMMENT')
+    t.lexer.begin('COMM')
 
-def t_COMMENT_CLOSE(t):
+def t_COMM_COMMENTARYCLOSE(t):
     r'\*/'
     t.lexer.begin('INITIAL')
 
@@ -82,7 +82,7 @@ def t_COMMENTARY(t):
     r'//.*'
     pass
 
-def r_COMMENT_TEXT:
+def r_COMM_TEXT(t):
     r'.|\n'
     pass
 
